@@ -1,6 +1,6 @@
 # task_app
 
-A new Flutter project.
+Task management App (# not finished yet)
 
 ## Getting Started
 
