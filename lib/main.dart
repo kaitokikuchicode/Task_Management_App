@@ -15,58 +15,49 @@ class _AllTasksPageState extends State<AllTasksPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _tasks = new List.generate(_count, (int i) => TaskColumn());
+    List<Widget> _tasks = List.generate(_count, (int i) => TaskColumn());
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter Task Management'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(20),
-            ),
-            Center(
-              child: Container(
-                height: 70,
+        child: Container(
+          padding: EdgeInsets.only(top: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 500,
                 child: ListView(
                   children: _tasks,
                 ),
-              ),
-            ),
-            Center(
-              child: Container(
-                height: 70,
-                child: ListView(
-                  children: _tasks,
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                height: 70,
-                child: ListView(
-                  children: _tasks,
-                ),
-              ),
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: _addNewTask,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  void _addNewTask() {
+    setState(() {
+      _count++;
+    });
+  }
 }
 
 class TaskColumn extends StatefulWidget {
-  TaskColumn({Key key}) : super(key: key);
+  TaskColumn({int count, Key key})
+      : this.count = count,
+        super(key: key);
+  final count;
 
   _TaskColumnState createState() => _TaskColumnState();
 }
@@ -74,9 +65,12 @@ class TaskColumn extends StatefulWidget {
 class _TaskColumnState extends State<TaskColumn> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text('Task is here.'),
+    return Container(
+      margin: EdgeInsets.all(5),
+      height: 40,
+      color: Colors.blueAccent,
+      child: Center(
+        child: Text('task'),
       ),
     );
   }
