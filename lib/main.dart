@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() => runApp(
-      MaterialApp(home: AllTasksPage()),
+      MaterialApp(debugShowCheckedModeBanner: false, home: AllTasksPage()),
     );
 
 class AllTasksPage extends StatefulWidget {
@@ -11,7 +11,7 @@ class AllTasksPage extends StatefulWidget {
 }
 
 class _AllTasksPageState extends State<AllTasksPage> {
-  int _count = 1;
+  int _count = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +23,16 @@ class _AllTasksPageState extends State<AllTasksPage> {
       ),
       body: Center(
         child: Container(
-          padding: EdgeInsets.only(top: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Container(
-                height: 500,
-                child: ListView(
-                  children: _tasks,
+              Expanded(
+                child: Container(
+                  child: ListView(
+                    children: _tasks,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -66,11 +66,31 @@ class _TaskColumnState extends State<TaskColumn> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.blueAccent,
+      ),
       margin: EdgeInsets.all(5),
       height: 40,
-      color: Colors.blueAccent,
-      child: Center(
-        child: Text('task'),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.only(left: 120),
+              child: Center(
+                child: Text('task'),
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 150),
+            child: IconButton(
+              onPressed: null,
+              icon: Icon(Icons.clear),
+            ),
+          ),
+        ],
       ),
     );
   }
