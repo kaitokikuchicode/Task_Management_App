@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-int count = 0;
-List<Widget> _tasks = [];
+List<Widget> tasks = [];
+List<String> keys = [];
+int i = 0;
 
 void main() => runApp(
       MaterialApp(debugShowCheckedModeBanner: false, home: AllTasksPage()),
@@ -28,18 +29,22 @@ class _AllTasksPageState extends State<AllTasksPage> {
             children: <Widget>[
               Expanded(
                 child: Container(
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, int index) {
-                      _tasks.add(Task(
-                        index: index,
-                      ));
-
-                      return _tasks[index];
-                    },
-                    //_tasks[index],
-                    itemCount: count,
-                  ),
-                ),
+                    child: ListView.builder(
+                  itemCount: tasks.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    tasks.map((task) => Data(task)).toList();
+                    print(keys[index]);
+                    return Dismissible(
+                      key: Key(keys[index]),
+                      onDismissed: (direction) {
+                        setState(() {
+                          tasks = tasks.removeAt(index) as List<Widget>;
+                        });
+                      },
+                      child: tasks[index],
+                    );
+                  },
+                )),
               ),
             ],
           ),
@@ -56,15 +61,20 @@ class _AllTasksPageState extends State<AllTasksPage> {
 
   void _addTask() {
     setState(() {
-      count++;
-      //_tasks.add(Task());
+      tasks.add(Task());
+      keys.add('$i');
+      i++;
     });
   }
 }
 
+class Data<T> {
+  final T data;
+  Data(this.data);
+}
+
 class Task extends StatefulWidget {
-  final int index;
-  const Task({this.index, Key key}) : super(key: key);
+  const Task({Key key}) : super(key: key);
 
   _TaskState createState() => _TaskState();
 }
@@ -84,14 +94,7 @@ class _TaskState extends State<Task> {
     });
   }
 
-  void _deleteItem(int i) {
-    setState(() {
-      _tasks.remove(_tasks[i]);
-      count--;
-    });
-  }
-
-  Future<Null> _displaySizeChangeDialog(int i) {
+  Future<Null> _displaySizeChangeDialog() {
     return showDialog<Null>(
         context: context,
         barrierDismissible: true,
@@ -168,9 +171,7 @@ class _TaskState extends State<Task> {
           ),
           Expanded(
             child: InkWell(
-              onLongPress: () {
-                _displaySizeChangeDialog(widget.index);
-              },
+              onLongPress: _displaySizeChangeDialog,
               child: Container(
                 child: Center(
                   child: Text('task'),
@@ -182,9 +183,7 @@ class _TaskState extends State<Task> {
             padding: EdgeInsets.only(right: 10),
             child: IconButton(
               icon: Icon(Icons.clear),
-              onPressed: () {
-                _deleteItem(widget.index);
-              },
+              onPressed: null,
             ),
           ),
         ],
