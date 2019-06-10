@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-List<Widget> tasks = [];
+List<Task> tasks = [];
+/*
+List<bool> pressed = [];
+List<double> importance = [];
+List<Color> colors = [];
 List<String> keys = [];
-int i = 0;
+*/
 
 void main() => runApp(
       MaterialApp(debugShowCheckedModeBanner: false, home: AllTasksPage()),
@@ -16,6 +20,7 @@ class AllTasksPage extends StatefulWidget {
 }
 
 class _AllTasksPageState extends State<AllTasksPage> {
+  int i = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +37,11 @@ class _AllTasksPageState extends State<AllTasksPage> {
                     child: ListView.builder(
                   itemCount: tasks.length,
                   itemBuilder: (BuildContext context, int index) {
-                    tasks.map((task) => Data(task)).toList();
-                    print(keys[index]);
                     return Dismissible(
-                      key: Key(keys[index]),
+                      key: ObjectKey(tasks[index]),
                       onDismissed: (direction) {
                         setState(() {
-                          tasks = tasks.removeAt(index) as List<Widget>;
+                          tasks.removeAt(index);
                         });
                       },
                       child: tasks[index],
@@ -61,20 +64,19 @@ class _AllTasksPageState extends State<AllTasksPage> {
 
   void _addTask() {
     setState(() {
-      tasks.add(Task());
-      keys.add('$i');
+      tasks.add(Task(
+        i: i,
+      ));
       i++;
     });
   }
 }
 
-class Data<T> {
-  final T data;
-  Data(this.data);
-}
-
 class Task extends StatefulWidget {
-  const Task({Key key}) : super(key: key);
+  const Task({int i, Key key})
+      : i = i,
+        super(key: key);
+  final int i;
 
   _TaskState createState() => _TaskState();
 }
@@ -171,10 +173,10 @@ class _TaskState extends State<Task> {
           ),
           Expanded(
             child: InkWell(
-              onLongPress: _displaySizeChangeDialog,
+              onLongPress: null,
               child: Container(
                 child: Center(
-                  child: Text('task'),
+                  child: Text('task${widget.i}'),
                 ),
               ),
             ),
@@ -182,8 +184,8 @@ class _TaskState extends State<Task> {
           Container(
             padding: EdgeInsets.only(right: 10),
             child: IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: null,
+              icon: Icon(Icons.more_vert),
+              onPressed: _displaySizeChangeDialog,
             ),
           ),
         ],
