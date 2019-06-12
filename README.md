@@ -1,4 +1,4 @@
-# Task management app (by Kaito kikuchi)
+# Task management app (by Kaito Kikuchi)
 
 It is a app that you can manage your tasks (but I've got some tasks to finish this app left)
 
