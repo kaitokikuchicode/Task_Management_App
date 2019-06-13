@@ -8,8 +8,18 @@ Map<int, bool> taskPressed = {};
 Map<int, double> taskImportance = {};
 Map<int, Color> taskColors = {};
 Map<int, String> taskName = {};
-Map<int, int> taskIndex = {};
-List<String> keys = [];
+
+String progress;
+
+void calculateProgress() {
+  int j = 0;
+  if (taskPressed.isNotEmpty) {
+    taskPressed.forEach((key, value) => {value ? j++ : null});
+    progress = (((j / taskPressed.length) * 100).round()).toString() + '%';
+  } else {
+    progress = "0%";
+  }
+}
 
 void main() => runApp(
       MaterialApp(debugShowCheckedModeBanner: false, home: AllTasksPage()),
@@ -23,11 +33,22 @@ class AllTasksPage extends StatefulWidget {
 
 class _AllTasksPageState extends State<AllTasksPage> {
   int i = 0;
+
   @override
   Widget build(BuildContext context) {
+    calculateProgress();
     return Scaffold(
       appBar: AppBar(
         title: Text('Task Management'),
+        actions: <Widget>[
+          Container(
+            padding: EdgeInsets.only(right: 30),
+            child: Container(
+              padding: EdgeInsets.only(top: 25),
+              child: Text(progress),
+            ),
+          )
+        ],
       ),
       body: Center(
         child: Container(
@@ -43,7 +64,12 @@ class _AllTasksPageState extends State<AllTasksPage> {
                       key: ObjectKey(tasks[index]),
                       onDismissed: (direction) {
                         setState(() {
+                          taskPressed.remove(tasks[index].i);
+                          taskImportance.remove(tasks[index].i);
+                          taskColors.remove(tasks[index].i);
+                          taskName.remove(tasks[index].i);
                           tasks.removeAt(index);
+                          calculateProgress();
                         });
                       },
                       child: tasks[index],
@@ -73,6 +99,7 @@ class _AllTasksPageState extends State<AllTasksPage> {
       taskImportance[i] = 1;
       taskColors[i] = Colors.blueAccent;
       taskName[i] = 'task$i';
+      calculateProgress();
       i++;
     });
   }

@@ -19,6 +19,7 @@ class _TaskState extends State<Task> {
       } else {
         taskPressed[widget.i] = true;
       }
+      calculateProgress();
     });
   }
 
