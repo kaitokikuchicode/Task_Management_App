@@ -1,11 +1,9 @@
-# task_app
+# Task management app (by Kaito Kikuchi)
 
-Task management App (# not finished yet)
+It is a app that you can manage your tasks (but I've got some tasks to finish this app left)
 
-What I want to add
+## What I want to add to finish this app
 
- When a task is deleted, let another tasks retain their information like color, size etc.
+・Displaying progress.
  
- Displaying progress.
- 
- Making tasks able to be favorite.
+・Making tasks able to be favorite.
