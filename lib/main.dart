@@ -9,17 +9,7 @@ Map<int, double> taskImportance = {};
 Map<int, Color> taskColors = {};
 Map<int, String> taskName = {};
 
-String progress;
-
-void calculateProgress() {
-  int j = 0;
-  if (taskPressed.isNotEmpty) {
-    taskPressed.forEach((key, value) => {value ? j++ : null});
-    progress = (((j / taskPressed.length) * 100).round()).toString() + '%';
-  } else {
-    progress = "0%";
-  }
-}
+String progress = '0%';
 
 void main() => runApp(
       MaterialApp(debugShowCheckedModeBanner: false, home: AllTasksPage()),
@@ -36,7 +26,6 @@ class _AllTasksPageState extends State<AllTasksPage> {
 
   @override
   Widget build(BuildContext context) {
-    calculateProgress();
     return Scaffold(
       appBar: AppBar(
         title: Text('Task Management'),
@@ -94,6 +83,7 @@ class _AllTasksPageState extends State<AllTasksPage> {
     setState(() {
       tasks.add(Task(
         i: i,
+        parent: this,
       ));
       taskPressed[i] = false;
       taskImportance[i] = 1;
@@ -101,6 +91,18 @@ class _AllTasksPageState extends State<AllTasksPage> {
       taskName[i] = 'task$i';
       calculateProgress();
       i++;
+    });
+  }
+
+  void calculateProgress() {
+    int j = 0;
+    setState(() {
+      if (taskPressed.isNotEmpty) {
+        taskPressed.forEach((key, value) => {value ? j++ : null});
+        progress = (((j / taskPressed.length) * 100).round()).toString() + '%';
+      } else {
+        progress = "0%";
+      }
     });
   }
 }

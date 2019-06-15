@@ -3,10 +3,12 @@ import 'dart:async';
 import './main.dart';
 
 class Task extends StatefulWidget {
-  const Task({int i, Key key})
+  const Task({int i, State parent, Key key})
       : i = i,
+        parent = parent,
         super(key: key);
   final int i;
+  final State parent;
 
   _TaskState createState() => _TaskState();
 }
@@ -19,7 +21,19 @@ class _TaskState extends State<Task> {
       } else {
         taskPressed[widget.i] = true;
       }
-      calculateProgress();
+    });
+    calculateProgress();
+  }
+
+  void calculateProgress() {
+    int j = 0;
+    widget.parent.setState(() {
+      if (taskPressed.isNotEmpty) {
+        taskPressed.forEach((key, value) => {value ? j++ : null});
+        progress = (((j / taskPressed.length) * 100).round()).toString() + '%';
+      } else {
+        progress = "0%";
+      }
     });
   }
 
