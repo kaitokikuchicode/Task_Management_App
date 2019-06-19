@@ -86,7 +86,7 @@ class _TaskState extends State<Task> {
                   color: Colors.yellowAccent,
                   onPressed: () {
                     setState(() {
-                      taskColors[widget.i] = Colors.yellowAccent;
+                      taskColors[widget.i] = Colors.yellow[300];
                       taskImportance[widget.i] = 1.5;
                       Navigator.of(context).pop();
                     });

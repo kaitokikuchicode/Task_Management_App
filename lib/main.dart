@@ -12,7 +12,13 @@ Map<int, String> taskName = {};
 String progress = '0%';
 
 void main() => runApp(
-      MaterialApp(debugShowCheckedModeBanner: false, home: AllTasksPage()),
+      MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: AllTasksPage(),
+        theme: ThemeData(
+            primarySwatch: Colors.grey,
+            scaffoldBackgroundColor: Colors.black54),
+      ),
     );
 
 class AllTasksPage extends StatefulWidget {
